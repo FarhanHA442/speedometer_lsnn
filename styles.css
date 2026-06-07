@@ -1,0 +1,174 @@
+* {
+    user-select: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: transparent !important;
+    font-family: 'Arial Narrow', sans-serif; 
+    color: white;
+}
+
+.speedo-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 300px;
+    opacity: 0; 
+    animation: slideUpFade 0.8s ease-out forwards;
+}
+
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.speedo-dial {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #1a1c20 0%, #000000 100%);
+    border: 8px solid #333; 
+    border-radius: 50%;
+    overflow: hidden;
+    transition: box-shadow 0.6s ease, filter 0.6s ease;
+}
+
+.speedo-dial.engine-on {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8),
+                0 0 20px rgba(0, 136, 255, 0.4),
+                inset 0 0 35px rgba(0, 136, 255, 0.3);
+    filter: brightness(1.0); 
+}
+
+.speedo-dial.engine-off {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8),
+                inset 0 0 60px rgba(0,0,0,0.9); 
+    filter: brightness(0.4); 
+}
+
+.lspd-logo-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('lsnn-dial.png'); 
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.35; 
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.marks .mark {
+    position: absolute; font-size: 20px; font-weight: bold;
+    color: #eee; text-shadow: 0 0 5px rgba(255,255,255,0.5); z-index: 2;
+}
+.m0   { bottom: 55px; left: 65px; }
+.m20  { bottom: 105px; left: 35px; }
+.m40  { top: 100px; left: 35px; }
+.m60  { top: 50px; left: 65px; }
+.m80  { top: 30px; left: 50%; transform: translateX(-50%); }
+.m100 { top: 50px; right: 65px; }
+.m120 { top: 100px; right: 35px; }
+.m140 { bottom: 105px; right: 35px; }
+.m160 { bottom: 55px; right: 65px; }
+
+.needle-container {
+    position: absolute; bottom: 50%; left: 50%;
+    width: 4px; height: 110px; 
+    transform-origin: bottom center; 
+    transform: rotate(-120deg); 
+    transition: transform 0.1s linear; z-index: 10;
+}
+.needle-hand {
+    width: 100%; height: 100%;
+    background: linear-gradient(to top, #ff0000, #ff4444); 
+    border-radius: 4px 4px 0 0; box-shadow: 0 0 5px rgba(255,0,0,0.8);
+}
+.needle-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px; height: 24px; background: #222;
+    border: 2px solid #555; border-radius: 50%; z-index: 11;
+}
+
+.digital-hud {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 5; pointer-events: none; 
+}
+
+.top-icons {
+    position: absolute; top: 70px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 20px; 
+}
+
+.main-digital {
+    position: absolute; top: 165px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; line-height: 1; width: 100%;
+}
+
+#digital-speed { font-size: 38px; font-weight: 900; font-family: 'Monaco', monospace; margin-bottom: 2px; }
+.sub-info { display: flex; justify-content: center; gap: 8px; margin-bottom: 6px; }
+#speed-unit { font-size: 12px; color: #aaa; font-weight: bold; }
+#gear { font-size: 16px; color: #ffcc00; font-weight: bold; }
+
+.rpm-bg {
+    width: 50px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;
+}
+.rpm-fill {
+    width: 0%; height: 100%; background: #00ffff; transition: width 0.1s linear;
+}
+
+.bottom-status {
+    position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+    display: flex; justify-content: space-between; 
+    align-items: flex-start; width: 165px; 
+}
+.bar-group { display: flex; align-items: flex-start; gap: 4px; }
+.bar-group .label { 
+    font-size: 9px; 
+    font-weight: bold; 
+    color: #ffffff; 
+    line-height: 1; 
+    margin-top: -1px; 
+    text-shadow: 0 0 3px rgba(0,0,0,0.8); 
+}
+
+.bar-stack { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.bar-group .bar-bg {
+    width: 32px; height: 5px; 
+    background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;
+}
+.bar-fill {
+    width: 100%; height: 100%; transition: width 0.3s ease, background 0.3s ease;
+}
+
+.bar-val { 
+    font-size: 17px; 
+    font-weight: bold; 
+    color: #ddd; 
+    font-family: 'Monaco', monospace; 
+    margin-top: 2px; 
+}
+
+.odo-text {
+    position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; color: #777; width: 100%; text-align: center;
+}
+
+.icon { 
+    opacity: 0.15; transition: opacity 0.2s, color 0.2s; 
+    display: flex; align-items: center; justify-content: center;
+}
+.icon.active { opacity: 1; filter: drop-shadow(0 0 5px currentColor); }
+#icon-lights.active { color: #00aaff; }
+#icon-seatbelt.active { color: #00ff00; }
+#icon-ind-l.active, #icon-ind-r.active { color: #ffaa00; animation: blink 0.5s infinite; }
+@keyframes blink { 50% { opacity: 0.1; } }
